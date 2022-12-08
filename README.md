@@ -1,6 +1,6 @@
 ## Event front-end
 
-Event是一个面向大学生的赛事组队交流分享平台微信小程序，该项目为Event的前端环境，想要体验的小伙伴可以微信搜索`Event`。
+Event是一个面向大学生的赛事组队交流分享平台微信小程序，该项目为Event的前端环境，想要体验的小伙伴可以微信搜索`Event`，演示视频[https://www.bilibili.com/video/BV1nt4y137an/](https://www.bilibili.com/video/BV1nt4y137an/?vd_source=82cc55a35696477a7fa4ca566a53d61d#reply140847374352)
 
 一问Event——一个面向大学生的赛事组队交流分享平台。分布在不同大学、不同专业领域的大学生可以为你提供独特而又价值的一手赛事信息，也可以找到和你志同道合的人一同参与比赛，无论你处于大学生活的哪个阶段，都可以来Event听听大家的现身说法。
 
