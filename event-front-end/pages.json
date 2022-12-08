@@ -1,0 +1,279 @@
+{
+  "easycom": {
+    "^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
+  },
+  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/home/home",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": true,
+        "navigationStyle": "custom" /*自定义导航栏*/
+      }
+    },
+    {
+      "path": "pages/me/me",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": true,
+        "navigationStyle": "custom" /*自定义导航栏*/
+      }
+    },
+    {
+      "path": "pages/post/post",
+      "style": {
+        "navigationBarTitleText": "想法",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/message/message",
+      "style": {
+        "navigationBarTitleText": "消息",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/contact/contact",
+      "style": {
+        "navigationBarTitleText": "人脉",
+        "enablePullDownRefresh": true,
+		 "navigationStyle": "custom" /*自定义导航栏*/
+      }
+    }
+  ],
+  "subPackages": [
+    {
+      "root": "subPackageA",
+      "pages": [
+        {
+          "path": "pages/me/me-setting",
+          "style": {
+            "navigationBarTitleText": "设置",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "pages/me/me-edit",
+          "style": {
+            "navigationBarTitleText": "编辑信息",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "pages/me/setting/me-security",
+          "style": {
+            "navigationBarTitleText": "帐号与安全",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "pages/me/setting/me-contact",
+          "style": {
+            "navigationBarTitleText": "联系反馈",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "pages/me/setting/me-privacy",
+          "style": {
+            "navigationBarTitleText": "隐私政策",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "pages/me/setting/me-devGroup",
+          "style": {
+            "navigationBarTitleText": "开发团队",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "pages/me/setting/goodbye",
+          "style": {
+            "navigationBarTitleText": "注销",
+            "enablePullDownRefresh": false,
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "pages/me/login",
+          "style": {
+            "navigationBarTitleText": "登录",
+            "enablePullDownRefresh": false,
+            "navigationStyle": "custom"
+          }
+        },
+		{
+		  "path": "pages/me/myPosts",
+		  "style": {
+		    "navigationBarTitleText": "我的动态",
+		    "enablePullDownRefresh": false
+		  }
+		},
+		{
+		  "path": "pages/me/hisPosts",
+		  "style": {
+		    "navigationBarTitleText": "Ta的动态",
+		    "enablePullDownRefresh": false
+		  }
+		},
+        {
+          "path": "pages/me/me-follow",
+          "style": {
+            "navigationBarTitleText": "关注的人",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "pages/me/me-fans",
+          "style": {
+            "navigationBarTitleText": "粉丝",
+            "enablePullDownRefresh": false
+          }
+        },
+		{
+		  "path": "pages/contact/myFollows",
+		  "style": {
+		    "navigationBarTitleText": "我感兴趣的人",
+		    "enablePullDownRefresh": false
+		  }
+		},
+		{
+		  "path": "pages/contact/myFans",
+		  "style": {
+		    "navigationBarTitleText": "对我感兴趣的人",
+		    "enablePullDownRefresh": false
+		  }
+		},
+        {
+          "path": "pages/home/searchDetail",
+          "style": {
+            "navigationBarTitleText": "搜索结果",
+            "enablePullDownRefresh": false,
+            "navigationStyle": "custom" /*自定义导航栏*/
+          }
+        },
+        {
+          "path": "pages/home/searchHub",
+          "style": {
+            "navigationBarTitleText": "搜索",
+            "enablePullDownRefresh": false,
+            "navigationStyle": "custom" /*自定义导航栏*/
+          }
+        },
+        {
+          "path": "pages/home/teamDetail",
+          "style": {
+            "navigationBarTitleText": "组队详情",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "pages/home/contestDetail",
+          "style": {
+            "navigationBarTitleText": "比赛详情",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "pages/message/chat",
+          "style": {
+            "navigationBarTitleText": "chat",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "pages/post/create",
+          "style": {
+            "navigationBarTitleText": "创建帖子",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "pages/post/detail",
+          "style": {
+            "navigationBarTitleText": "详情",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "pages/post/replyDetail",
+          "style": {
+            "navigationBarTitleText": "回复详情",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "pages/team/teamSend",
+          "style": {
+            "navigationBarTitleText": "发布",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "pages/team/teamEdit",
+          "style": {
+            "navigationBarTitleText": "编辑",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "pages/me/user",
+          "style": {
+            "navigationBarTitleText": "用户信息页",
+            "enablePullDownRefresh": false,
+            "navigationStyle": "custom"
+          }
+        }
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/home/home": { //要进行预加载时用户要进入的页面路径
+      "network": "all", // 什么网络下支持允许预加载，默认wifi: wifi/all
+      "packages": [
+        "subPackageA"
+      ] // 要进行预加载的子包名
+    }
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#BBBBBB",
+    "backgroundColor": "#FFFFFF",
+    "selectedColor": "#000",
+    "borderStyle": "white",
+    "custom": true,
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "static/tabBar-icon/home_not.png",
+        "selectedIconPath": "static/tabBar-icon/home.png"
+      },
+      {
+        "pagePath": "pages/contact/contact",
+        "text": "人脉",
+        "iconPath": "static/tabBar-icon/friend.jpg",
+        "selectedIconPath": "static/tabBar-icon/friend-fill.jpg"
+      },
+      {
+        "pagePath": "pages/message/message",
+        "text": "消息",
+        "iconPath": "static/tabBar-icon/office_not.png",
+        "selectedIconPath": "static/tabBar-icon/office.png"
+      },
+      {
+        "pagePath": "pages/me/me",
+        "text": "我的",
+        "iconPath": "static/tabBar-icon/mine_not.png",
+        "selectedIconPath": "static/tabBar-icon/mine.png"
+      }
+    ]
+  }
+}
