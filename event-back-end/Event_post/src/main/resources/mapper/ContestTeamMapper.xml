@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.ContestTeamMapper">
+
+    <resultMap id="BaseResultMap" type="com.event.pojo.ContestTeam">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="contestId" column="contest_id" jdbcType="BIGINT"/>
+            <result property="teamId" column="team_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!-- 分页查询ContestTeam   -->
+    <select id="selectContestTeamByPage" resultType="com.event.vo.TeamInfo">
+        select t.team_id,t.team_leader,t.team_title,t.team_detail,t.team_send_time,t.team_start_time
+             ,t.team_end_time,t.team_pnum,t.team_get_pnum,t.team_place,t.team_code,t.team_psw,t.team_contact
+             ,t.team_img_url,u.openname,u.avatar,u.email,u.userid,c.contest_id,c.contest_title
+        from team t
+        join user u on t.team_leader = u.userid
+        join contest c on c.contest_id = #{contestId}
+        where t.team_id in(
+            select team_id
+            from contest_team
+            where contest_id = #{contestId}
+        )
+        order by team_send_time desc
+        limit #{offset} , #{pageSize};
+    </select>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.CommentLikeMapper">
+    <select id="beSelectPostCommentLikeNum"  resultType="Integer">
+        select count(*)
+        from post_comment_like
+        where comment_id = #{commentId}
+    </select>
+    <select id="hasLikePostCommentLike"  resultType="Integer">
+        select 1
+        from post_comment_like
+        where comment_id = #{commentId} and user_id = #{userId}
+            limit 1
+    </select>
+    <delete id="removeLikePostComment">
+        delete
+        from post_comment_like
+        where comment_id = #{commentId} and user_id = #{userId}
+    </delete>
+</mapper>

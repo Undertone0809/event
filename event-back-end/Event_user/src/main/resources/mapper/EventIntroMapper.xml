@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.EventIntroMapper">
+<select id="selectIntroById" resultType="EventIntro">
+    select i.user_id,i.user_resume,i.user_skill,i.user_edu,i.user_prize,i.user_expr,i.user_bgimg
+    from event_intro i
+    where i.user_id = #{userId}
+</select>
+    <update id="updateIntro" parameterType="EventIntro">
+        update event_intro
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userResume!=null">user_resume=#{userResume},</if>
+            <if test="userSkill!=null">user_skill=#{userSkill},</if>
+            <if test="userEdu!=null">user_edu=#{userEdu},</if>
+            <if test="userPrize!=null">user_prize=#{userPrize},</if>
+            <if test="userExpr!=null">user_expr=#{userExpr},</if>
+            <if test="userBgimg!=null">user_bgimg=#{userBgimg},</if>
+        </trim>
+        <where>user_id=#{userId}</where>
+    </update>
+</mapper>

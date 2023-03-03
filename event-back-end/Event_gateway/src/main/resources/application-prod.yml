@@ -1,0 +1,73 @@
+server:
+  port: 443
+  ssl:
+    enabled: true
+    key-store: xxxxxx
+    key-store-type: xxxx
+    key-store-password: xxxxx
+
+spring:
+  profiles: prod
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: xxxxxxx:8848
+        namespace: xxxxxxxx
+    sentinel:
+      transport:
+        dashboard: xxxxxx:8080
+        port: 8719
+    gateway:
+      routes:
+        - id: user-route
+          uri: lb://user
+          predicates:
+            - Path=/user/**
+        - id: level-route
+          uri: lb://user
+          predicates:
+            - Path=/level/**
+        - id: intro-route
+          uri: lb://user
+          predicates:
+            - Path=/intro/**
+        - id: study-src
+          uri: lb://studySrc
+          predicates:
+            - Path=/studySrc/**
+        - id: post-route
+          uri: lb://post
+          predicates:
+            - Path=/post/**
+        - id: team-route
+          uri: lb://post
+          predicates:
+            - Path=/team/**
+        - id: comment-route
+          uri: lb://comment
+          predicates:
+            - Path=/comment/**
+        - id: unreadMsg-route
+          uri: lb://admin
+          predicates:
+            - Path=/unreadMsg/**
+        - id: oss-route
+          uri: lb://admin
+          predicates:
+            - Path=/oss/**
+        - id: chat-route
+          uri: lb://chat
+          predicates:
+            - Path=/chat/**
+        - id: websocket-route
+          uri: lb:ws://chat
+          predicates:
+            - Path=/websocket/**
+        - id: token-route
+          uri: lb://user
+          predicates:
+            - Path=/token/**
+
+

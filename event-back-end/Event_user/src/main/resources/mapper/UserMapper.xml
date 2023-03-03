@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.UserMapper">
+    <select id="selectUserInfo" resultType="UserInfo">
+        select u.userid,u.openname,u.realname,u.edu_account,u.avatar,u.email,ui.class as class0,ui.sex,ui.birth
+        from user u left join user_info ui on u.userid = ui.userid
+        where u.userid = #{userid}
+    </select>
+    <select id="selectUser" parameterType="User" resultType="User">
+        select u.userid,u.openid,u.openname,u.realname,u.createtime,u.edu_account,u.edu_password,u.email
+             ,u.edu_enc,u.edu_status,u.updatetime,u.avatar,ui.class as class0,ui.sex,ui.birth
+        from user u left join user_info ui on u.userid = ui.userid
+        <where>
+            <if test="userid!=null">u.userid=#{userid}</if>
+            <if test="openid!=null">and openid=#{openid}</if>
+            <if test="openname!=null">and openname=#{openname}</if>
+            <if test="realname!=null">and u.realname=#{realname}</if>
+            <if test="createtime!=null">and createtime=#{createtime}</if>
+            <if test="eduAccount!=null">and edu_account=#{eduAccount}</if>
+            <if test="eduPassword!=null">and edu_password=#{eduPassword}</if>
+            <if test="email!=null">and email=#{email}</if>
+        </where>
+    </select>
+    <select id="selectUserByCode" parameterType="User" resultType="User">
+        select u.userid,u.openid,u.openname,u.realname,u.createtime,u.edu_account,u.edu_password,u.email
+             ,u.edu_enc,u.edu_status,u.updatetime,u.avatar,ui.class,ui.sex,ui.birth
+        from user u left join user_info ui on u.userid = ui.userid
+        where edu_account = #{eduAccount}
+    </select>
+    <select id="selectUserById" parameterType="User" resultType="User">
+        select u.userid,u.openid,u.openname,u.realname,u.createtime,u.edu_account,u.edu_password,u.email
+             ,u.edu_enc,u.edu_status,u.updatetime,u.avatar,ui.class,ui.sex,ui.birth
+        from user u left join user_info ui on u.userid = ui.userid
+        where u.userid = #{userId}
+    </select>
+    <select id="selectUserByOpenid" parameterType="User" resultType="User">
+        select u.userid,u.openid,u.openname,u.realname,u.createtime,u.edu_account,u.edu_password,u.email
+             ,u.edu_enc,u.edu_status,u.updatetime,u.avatar,ui.class,ui.sex,ui.birth
+        from user u left join user_info ui on u.userid = ui.userid
+        where u.openid = #{openid}
+    </select>
+    <update id="updateUser" parameterType="User">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="openid!=null">openid=#{openid},</if>
+            <if test="openname!=null">openname=#{openname},</if>
+            <if test="avatar!=null">avatar=#{avatar},</if>
+            <if test="email!=null">email=#{email},</if>
+        </trim>
+        <where>userid=#{userid}</where>
+    </update>
+    <select id="selectTeam" resultType="TeamInfo">
+        select t.team_id,t.team_leader,t.team_title,t.team_detail,t.team_send_time,t.team_start_time
+        ,t.team_end_time,t.team_pnum,t.team_get_pnum,t.team_place,t.team_code,t.team_psw,t.team_img_url
+        ,u.openname,u.avatar,u.email,u.userid
+        from team t left join user u on t.team_leader = u.userid
+        where t.team_leader=#{teamLeader}
+    </select>
+    <select id="searchUserInfoByKeywordAndPage" resultType="com.event.vo.UserDetailVo">
+        select u.userid,u.openname,u.avatar,u.email,e.user_resume,e.user_expr
+            ,e.user_edu,e.user_skill,e.user_prize,e.user_bgimg
+        from user u
+        left join event_intro e
+        on e.user_id = u.userid
+        where
+        (
+            u.openname like CONCAT('%',#{keyword},'%')
+            or e.user_resume like CONCAT('%',#{keyword},'%')
+            or e.user_expr like CONCAT('%',#{keyword},'%')
+            or e.user_edu like CONCAT('%',#{keyword},'%')
+            or e.user_skill like CONCAT('%',#{keyword},'%')
+            or e.user_prize like CONCAT('%',#{keyword},'%')
+        )and
+        (
+            e.user_resume != ''
+            or e.user_skill is not null
+            or e.user_edu is not null
+            or e.user_prize is not null
+            or e.user_expr is not null
+        )
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="recommendUserByActivity" resultType="com.event.vo.UserDetailVo">
+        select u.userid,u.openname,u.avatar,u.email,e.user_resume,e.user_expr
+             ,e.user_edu,e.user_skill,e.user_prize,e.user_bgimg
+        from user u
+        left join event_intro e on e.user_id = u.userid
+        where u.userid != #{userId} and
+        (
+            e.user_resume != ''
+            or e.user_skill is not null
+            or e.user_edu is not null
+            or e.user_prize is not null
+            or e.user_expr is not null
+        ) and u.userid not in (
+            select collect_user_id as userid from user_collect where be_collect_user_id = #{userId}
+        )
+        limit #{offset},#{pageSize}
+    </select>
+
+    <select id="selectMyFollower" resultType="com.event.vo.UserDetailVo">
+        select u.userid,u.openname,u.avatar,u.email,e.user_resume,e.user_expr
+             ,e.user_edu,e.user_skill,e.user_prize,e.user_bgimg
+        from user_collect uc
+         left join event_intro e on be_collect_user_id = e.user_id
+         left join user u on e.user_id = u.userid
+        where uc.collect_user_id = #{userId}
+        limit #{offset},#{pageSize}
+    </select>
+
+    <select id="selectMyFans" resultType="com.event.vo.UserDetailVo">
+        select u.userid,u.openname,u.avatar,u.email,e.user_resume,e.user_expr
+             ,e.user_edu,e.user_skill,e.user_prize,e.user_bgimg
+        from user_collect uc
+        left join event_intro e on collect_user_id = e.user_id
+        left join user u on e.user_id = u.userid
+        where uc.be_collect_user_id = #{userId}
+        limit #{offset},#{pageSize}
+    </select>
+
+    <select id="findSchoolmate" resultType="com.event.vo.UserDetailVo">
+        select u.userid,u.openname,u.avatar,u.email,e.user_resume,e.user_expr
+             ,e.user_edu,e.user_skill,e.user_prize,e.user_bgimg
+        from user u
+        left join event_intro e on e.user_id = u.userid and e.user_edu in
+            (select user_edu from event_intro where user_id = #{userId})
+        where u.userid != #{userId} and
+        (
+            e.user_resume != ''
+            or e.user_skill is not null
+            or e.user_edu is not null
+            or e.user_prize is not null
+            or e.user_expr is not null
+        ) and u.userid not in (
+        select collect_user_id as userid from user_collect where be_collect_user_id = #{userId}
+        )
+    </select>
+</mapper>

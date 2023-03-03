@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.TeamJoinMapper">
+    <select id="selectTeamJoinById" resultType="TeamJoin">
+        select *
+        from team_join t
+        where t.join_id = #{joinId}
+    </select>
+    <select id="hasJoinTeam"  resultType="Integer">
+        select 1
+        from team_join
+        where team_id = #{teamId} and user_id = #{userId}
+        limit 1
+    </select>
+
+    <select id="selectHasJoin" parameterType="TeamJoin" resultType="TeamJoinInfo">
+        select t.team_id,t.join_time,t.join_id,u.userid,u.openname,u.avatar,u.email
+         ,e.user_resume,e.user_expr,e.user_edu,e.user_skill,e.user_prize,e.user_bgimg,team.team_leader
+        from user u
+        left join team_join t on u.userid = t.user_id
+        left join event_intro e on u.userid = e.user_id
+        left join team on t.team_id = team.team_id
+        <where>
+            <if test="teamId!=null">t.team_id=#{teamId}</if>
+            <if test="userId!=null">and t.user_id=#{userId}</if>
+            <if test="joinTime!=null">and t.join_time=#{joinTime}</if>
+        </where>
+    </select>
+
+</mapper>

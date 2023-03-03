@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.PostMapper">
+    <select id="selectPostById"  resultType="Post">
+        select p.post_id,p.post_title,p.user_id,p.post_content,p.post_views,p.post_comment_num,p.post_time,p.post_type,p.post_ip,
+        p.post_uptime,p.post_like_num,p.post_collect_num,p.post_img_url,u.openname,u.avatar
+        from post p left join user u on p.user_id = u.userid
+        where p.post_id=#{postId}
+    </select>
+    <select id="selectPost" parameterType="Post" resultType="Post">
+        select p.post_id,p.post_title,p.user_id,p.post_content,p.post_views,p.post_comment_num,p.post_time,p.post_type,p.post_ip,
+               p.post_uptime,p.post_like_num,p.post_collect_num,p.post_img_url,u.openname,u.avatar
+        from post p left join user u on p.user_id = u.userid
+        <where>
+            <if test="postId!=null">post_id=#{postId}</if>
+            <if test="postTitle!=null">and post_title=#{postTitle}</if>
+            <if test="userId!=null">and user_id=#{userId}</if>
+            <if test="postTime!=null">and post_time=#{postTime}</if>
+            <if test="postType!=null">and post_type=#{postType}</if>
+        </where>
+        order by post_time desc
+        <if test="idx!=null">LIMIT #{idx},5</if>
+    </select>
+    <select id="selectPostByView" parameterType="Post" resultType="Post">
+        select p.post_id,p.post_title,p.user_id,p.post_content,p.post_views,p.post_comment_num,p.post_time,p.post_type,p.post_ip,
+        p.post_uptime,p.post_like_num,p.post_collect_num,p.post_img_url,u.openname,u.avatar
+        from post p left join user u on p.user_id = u.userid
+        <where>
+            <if test="postId!=null">post_id=#{postId}</if>
+            <if test="postTitle!=null">and post_title=#{postTitle}</if>
+            <if test="userId!=null">and user_id=#{userId}</if>
+            <if test="postTime!=null">and post_time=#{postTime}</if>
+            <if test="postType!=null">and post_type=#{postType}</if>
+        </where>
+        order by post_views desc
+        <if test="idx!=null">LIMIT #{idx},5</if>
+    </select>
+    <update id="updatePost" parameterType="Post">
+        update post
+        <trim prefix="set" suffixOverrides=",">
+            <if test="postTitle!=null">post_title=#{postTitle},</if>
+            <if test="userId!=null">user_id=#{userId},</if>
+            <if test="postContent!=null">post_content=#{postContent},</if>
+            <if test="postViews!=null">post_views=#{postViews},</if>
+            <if test="postCommentNum!=null">post_comment_num=#{postCommentNum},</if>
+            <if test="postCollectNum!=null">post_collect_num=#{postCollectNum},</if>
+            <if test="postLikeNum!=null">post_like_num=#{postLikeNum},</if>
+            <if test="postTime!=null">post_time=#{postTime},</if>
+            <if test="postType!=null">post_type=#{postType},</if>
+            <if test="postUptime!=null">post_uptime=#{postUptime},</if>
+            <if test="postImgUrl!=null">post_img_url=#{postImgUrl},</if>
+        </trim>
+        <where><if test="postId!=null">post_id=#{postId}</if></where>
+    </update>
+    <select id="selectPostByPostTitle" parameterType="Post" resultType="Post">
+        select * from post
+        <where>
+            <if test="postTitle!=null">post_title like concat('%',#{postTitle},'%')</if>
+        </where>
+        order by post_views desc
+        <if test="idx!=null">LIMIT #{idx},5</if>
+    </select>
+    <select id="selectPostByUptime" parameterType="Post" resultType="Post">
+        select p.post_id,p.post_title,p.user_id,p.post_content,p.post_views,p.post_comment_num,p.post_time,p.post_type,p.post_ip,
+        p.post_uptime,p.post_like_num,p.post_collect_num,p.post_img_url,u.openname,u.avatar,u.email
+        from post p left join user u on p.user_id = u.userid,
+        <where>
+            <if test="postId!=null">post_id=#{postId}</if>
+            <if test="postTitle!=null">and post_title=#{postTitle}</if>
+            <if test="userId!=null">and user_id=#{userId}</if>
+            <if test="postTime!=null">and post_time=#{postTime}</if>
+            <if test="postType!=null">and post_type=#{postType}</if>
+            <if test="postUptime!=null">and post_uptime=#{postUptime}</if>
+        </where>
+        order by post_uptime desc
+        <if test="idx!=null">LIMIT #{idx},5</if>
+    </select>
+    <select id="searchPostByContentAndPage" resultType="com.event.vo.PostDetailVo">
+        select p.*,u.openname,u.avatar,u.email,ei.user_edu,c.contest_id,c.contest_title
+        from post p
+        left join user u on p.user_id = u.userid
+        left join event_intro ei on u.userid = ei.user_id
+        left join contest_post cp on p.post_id = cp.post_id
+        left join contest c on cp.contest_id = c.contest_id
+        where p.post_content like CONCAT('%',#{keyword},'%')
+        order by p.post_views desc
+        limit #{offset},#{pageSize}
+    </select>
+
+    <select id="selectMyFriendPost" resultType="com.event.vo.PostDetailVo">
+        select p.*,u.openname,u.avatar,u.email,ei.user_edu,c.contest_id,c.contest_title
+        from post p
+        left join user u on p.user_id = u.userid
+        left join event_intro ei on u.userid = ei.user_id
+        left join contest_post cp on p.post_id = cp.post_id
+        left join contest c on cp.contest_id = c.contest_id
+        where p.user_id in
+        (
+            select be_collect_user_id as user_id
+            from user_collect
+            where collect_user_id = #{userId}
+        )
+        order by p.post_time desc
+        limit #{offset},#{pageSize}
+    </select>
+
+    <select id="selectPostByViews" resultType="com.event.vo.PostDetailVo">
+        select p.*,u.openname,u.avatar,ei.user_edu,c.contest_id,c.contest_title
+        from post p
+        left join user u on p.user_id = u.userid
+        left join event_intro ei on u.userid = ei.user_id
+        left join contest_post cp on p.post_id = cp.post_id
+        left join contest c on cp.contest_id = c.contest_id
+        order by p.post_views desc
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="selectPostByUserId" resultType="com.event.vo.PostDetailVo">
+        select p.*,u.openname,u.avatar,ei.user_edu,c.contest_id,c.contest_title
+        from post p
+        left join user u on p.user_id = u.userid
+        left join event_intro ei on u.userid = ei.user_id
+        left join contest_post cp on p.post_id = cp.post_id
+        left join contest c on cp.contest_id = c.contest_id
+        where p.user_id = #{userId}
+        order by p.post_time desc
+        limit #{offset},#{pageSize}
+    </select>
+
+    <update id="addPostView">
+        UPDATE post SET post_views=post_views+1 WHERE post_id = #{postId}
+    </update>
+
+
+</mapper>

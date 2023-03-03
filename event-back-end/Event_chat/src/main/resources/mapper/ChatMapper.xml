@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.ChatMapper">
+
+     <select id="selectAllChat" resultType="ChatInfo">
+        select c.chat_id,c.chat_senderId,c.chat_recipientId,c.char_context,c.chat_time
+        ,u.openname,u.avatar
+        from chat c left join user u on c.chat_senderId = u.userid
+        order by c.chat_time asc
+     </select>
+    <select id="selectChat" parameterType="Chat" resultType="Chat">
+        select chat.chat_id,chat.chat_senderId,chat.chat_recipientId,chat.char_context,chat.chat_time
+        from chat
+        <where>
+            <if test="chatSenderId!=null">u.chat_senderId=#{chatSenderId}</if>
+            <if test="chatRecipientId!=null">and chat_recipientId=#{chatRecipientId}</if>
+        </where>
+        order by chat_time asc
+    </select>
+    <select id="selectChatByTwo" resultType="Chat">
+        select chat.chat_id,chat.chat_senderId,chat.chat_recipientId,chat.char_context,chat.chat_time
+        from chat
+        where (chat_senderId = #{chatSenderId} and chat_recipientId = #{chatRecipientId})
+        or (chat_senderId = #{chatRecipientId} and chat_recipientId = #{chatSenderId})
+        order by chat_time desc
+        limit #{pageIndex} ,#{pageSize}
+    </select>
+</mapper>

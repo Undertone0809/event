@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.CommentTeamMapper">
+
+    <select id="selectPostComment" parameterType="PostComment" resultType="PostComment">
+        select pc.comment_id,pc.user_id,pc.post_id,pc.comment_time,pc.comment_content,
+        pc.fa_comment_id,pc.commend_likes,u.openname,u.avatar
+        from post_comment pc left join user u on pc.user_id=u.userid
+        <where>
+            <if test="commentId!=null">comment_id=#{commentId}</if>
+            <if test="userId!=null">and user_id=#{userId}</if>
+            <if test="postId!=null">and post_id=#{postId}</if>
+            <if test="commentTime!=null">and comment_time=#{commentTime}</if>
+            <if test="faCommentId!=null">and fa_comment_id=#{faCommentId}</if>
+            <if test="commentContent!=null">and comment_content=#{commentContent}</if>
+        </where>
+        order by comment_time desc
+        <if test="idx!=null">LIMIT #{idx},8</if>
+    </select>
+
+
+
+</mapper>

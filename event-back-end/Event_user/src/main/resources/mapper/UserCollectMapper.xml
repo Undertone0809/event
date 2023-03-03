@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.UserCollectMapper">
+    <select id="selectCollectionUserNum" resultType="Integer">
+        select count(*)
+        from user_collect
+        where collect_user_id = #{collectionUserId}
+    </select>
+    <select id="beSelectCollectionUserNum"  resultType="Integer">
+        select count(*)
+        from user_collect
+        where be_collect_user_id = #{beCollectionUserId}
+    </select>
+    <select id="selectCollectionUser" resultType="UserCollectInfo">
+        select u.userid,u.openname,u.avatar
+        from user_collect uc left join user u on uc.be_collect_user_id = u.userid
+        where collect_user_id = #{collectionUserId}
+    </select>
+    <select id="beSelectCollectionUser"  resultType="UserCollectInfo">
+        select u.userid,u.openname,u.avatar
+        from user_collect uc left join user u on uc.collect_user_id = u.userid
+        where be_collect_user_id = #{beCollectionUserId}
+    </select>
+    <select id="hasCollectionUser"  resultType="Integer">
+        select 1
+        from user_collect
+        where collect_user_id = #{collectionUserId} and be_collect_user_id = #{beCollectionUserId}
+        limit 1
+    </select>
+    <delete id="removeCollectionUser">
+        delete
+        from user_collect
+        where collect_user_id = #{collectionUserId} and be_collect_user_id = #{beCollectionUserId}
+    </delete>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.TeamCollectMapper">
+    <select id="beSelectCollectionTeamNum"  resultType="Integer">
+        select count(*)
+        from team_collect
+        where team_id = #{teamId}
+    </select>
+    <select id="selectCollectionTeam" resultType="TeamInfo">
+        select t.team_id,t.team_leader,t.team_title,t.team_detail,t.team_send_time,t.team_start_time
+             ,t.team_end_time,t.team_pnum,t.team_get_pnum,t.team_place,t.team_code,t.team_psw,t.team_img_url
+             ,u.openname,u.avatar
+        from team_collect tc inner join user u on  tc.user_id = u.userid
+                             inner join team t on  tc.team_id = t.team_id
+         where tc.user_id = #{userId}
+    </select>
+    <select id="hasCollectionTeam"  resultType="Integer">
+        select 1
+        from team_collect
+        where team_id = #{teamId} and user_id = #{userId}
+            limit 1
+    </select>
+    <delete id="removeCollectionTeam">
+        delete
+        from team_collect
+        where team_id = #{teamId} and user_id = #{userId}
+    </delete>
+</mapper>

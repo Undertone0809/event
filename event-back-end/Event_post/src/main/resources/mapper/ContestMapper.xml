@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.ContestMapper">
+
+    <resultMap id="BaseResultMap" type="com.event.pojo.Contest">
+            <id property="contestId" column="contest_id" jdbcType="BIGINT"/>
+            <result property="contestTitle" column="contest_title" jdbcType="VARCHAR"/>
+            <result property="contestDescription" column="contest_description" jdbcType="VARCHAR"/>
+            <result property="contestCreateTime" column="contest_create_time" jdbcType="TIMESTAMP"/>
+            <result property="contestBeginTime" column="contest_begin_time" jdbcType="TIMESTAMP"/>
+            <result property="contestEndTime" column="contest_end_time" jdbcType="TIMESTAMP"/>
+            <result property="contestArea" column="contest_area" jdbcType="VARCHAR"/>
+            <result property="contestUrl" column="contest_url" jdbcType="VARCHAR"/>
+            <result property="contestView" column="contest_view" jdbcType="BIGINT"/>
+            <result property="contestImageUrl" column="contest_image_url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        contest_id,contest_title,contest_description,
+        contest_create_time,contest_begin_time,contest_end_time,
+        contest_area,contest_url,contest_view,
+        contest_image_url
+    </sql>
+
+</mapper>
