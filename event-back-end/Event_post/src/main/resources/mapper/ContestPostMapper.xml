@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.ContestPostMapper">
+
+    <resultMap id="BaseResultMap" type="com.event.pojo.ContestPost">
+            <id property="contestPostId" column="contest_post_id" jdbcType="INTEGER"/>
+            <result property="contestId" column="contest_id" jdbcType="BIGINT"/>
+            <result property="postId" column="post_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        contest_post_id,contest_id,post_id
+    </sql>
+
+    <select id="selectContestPostByPage" resultType="com.event.vo.PostDetailVo">
+        select p.*,u.email,u.openname,u.avatar,ei.user_edu,c.contest_id,c.contest_title
+        from post p
+        left join user u on p.user_id = u.userid
+        left join contest c on c.contest_id = #{contestId}
+        left join event_intro ei on u.userid = ei.user_id
+        where p.post_id in (
+            select post_id
+            from contest_post
+            where contest_id = #{contestId}
+        )
+        order by p.post_views desc
+        limit #{offset} , #{pageSize};
+    </select>
+
+
+</mapper>

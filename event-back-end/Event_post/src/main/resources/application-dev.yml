@@ -1,0 +1,68 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    username: xxxxxxxxxxxxx
+    password: xxxxxxxxxxxxxxxxxxxxxx
+    url: jdbc:mysql://xxxxxxx:3306/xxxxxxx?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  profiles: dev
+  application:
+    name: post
+  cloud:
+    nacos:
+      discovery:
+        ip: 127.0.0.1
+        server-addr: 127.0.0.0.1:8848
+        namespace: xxxxxxxxxxxxxxxxxxx
+  mvc:
+    formcontent:
+      filter:
+        enabled: true
+
+  thymeleaf:
+    prefix: classpath:/static/
+    suffix: .html
+    cache: false
+  freemarker:
+    cache: false
+
+  redis:
+    host: 127.0.0.1
+    port: 6666
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1
+    timeout: 10000
+    database: 2
+
+  # 邮件系统
+  mail:
+    username: xxxxxxxxxxx
+    password: xxxxxxxxxxxx
+    host: smtp.qq.com
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+
+server:
+  port: 8003
+  max-http-header-size: 1024000
+
+# aliyun图床
+aliyun:
+  oss:
+    endpoint: xxxxxxxxxxxxxx
+    accessKeyId: xxxxxxxxxxxxxxxxx
+    accessKeySecret: xxxxxxxxxxxxxxxxx
+    bucketName: xxxxxxxxxx
+
+mybatis-plus:
+  type-aliases-package: com.event.pojo,com.event.vo
+  mapper-locations: classpath:mapper/*.xml

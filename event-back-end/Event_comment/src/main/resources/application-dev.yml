@@ -1,0 +1,64 @@
+
+spring:
+  datasource:
+    username: xxxxxxxx
+    password: xxxxxxxx
+    url: jdbc:mysql://xxxxxxxxx/xxxxxx?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  profiles: dev
+  application:
+    name: comment
+  cloud:
+    nacos:
+      discovery:
+        ip: 127.0.0.1
+        server-addr: 127.0.0.1:8848
+        namespace: xxxxxxx
+
+  mvc:
+    formcontent:
+      filter:
+        enabled: true
+
+  thymeleaf:
+    prefix: classpath:/static/
+    suffix: .html
+    cache: false
+  freemarker:
+    cache: false
+
+  redis:
+    host: 81.70.159.124
+    port: 6666
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1
+    timeout: 10000
+    database: 2
+  mail:
+    username: xxxxxxxx
+    password: xxxxxxxx
+    host: smtp.qq.com
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+server:
+  port: 8004
+  max-http-header-size: 1024000
+
+aliyun:
+  oss:
+    endpoint: xxxxxxxx
+    accessKeyId: xxxxxxxx
+    accessKeySecret: xxxxxxxx
+    bucketName: xxxxxxxx
+
+mybatis-plus:
+  type-aliases-package: com.event.pojo
+  mapper-locations: classpath:mapper/*.xml

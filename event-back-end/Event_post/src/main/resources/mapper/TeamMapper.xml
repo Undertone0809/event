@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.event.mapper.TeamMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="team_id" parameterType="com.event.pojo.Team">
+        insert into team(team_id, team_leader, team_title, team_detail, team_send_time, team_start_time, team_end_time, team_pnum, team_get_pnum, team_place, team_code, team_psw, team_img_url, team_contact) SELECT
+            #{team_id}, #{team_leader}, #{team_title}, #{team_detail}, #{team_send_time}, #{team_start_time}, #{team_end_time}, #{team_pnum}, #{team_get_pnum}, #{team_place}, #{team_code}, #{team_psw}, #{team_img_url}, #{team_contact}
+    </insert>
+    <select id="selectMyJoinTeam" resultType="TeamInfo">
+        select t.team_id,t.team_leader,t.team_title,t.team_detail,t.team_send_time,t.team_start_time
+             ,t.team_end_time,t.team_pnum,t.team_get_pnum,t.team_place,t.team_code,t.team_psw,t.team_img_url
+             ,u.openname,u.avatar,u.email,c.contest_id,c.contest_title,ei.user_edu
+        from user u
+        left join team t on  u.userid = t.team_leader
+        left join contest_team ct on t.team_id = ct.team_id
+        left join contest c on ct.contest_id = c.contest_id
+        left join event_intro ei on u.userid = ei.user_id
+        left join team_join tj on t.team_id = tj.team_id
+        where tj.user_id = #{userId}
+        order by t.team_send_time desc
+        limit #{teamIndex} , #{pageSize}
+    </select>
+    <select id="selectNotFinishedTeam" resultType="TeamInfo">
+        select t.team_id,t.team_leader,t.team_title,t.team_detail,t.team_send_time,t.team_start_time
+        ,t.team_end_time,t.team_pnum,t.team_get_pnum,t.team_place,t.team_code,t.team_psw,t.team_img_url
+        ,u.openname,u.avatar,u.email,c.contest_id,c.contest_title,ei.user_edu
+        from team t
+        left join user u on t.team_leader = u.userid
+        left join contest_team ct on t.team_id = ct.team_id
+        left join contest c on ct.contest_id = c.contest_id
+        left join event_intro ei on u.userid = ei.user_id
+        where t.team_get_pnum &lt; t.team_pnum and sysdate() &lt; team_end_time
+        order by t.team_send_time desc
+        limit #{teamIndex} , #{pageSize}
+    </select>
+    <select id="selectMyFriendTeam" resultType="TeamInfo">
+        select t.team_id,t.team_leader,t.team_title,t.team_detail,t.team_send_time,t.team_start_time
+        ,t.team_end_time,t.team_pnum,t.team_get_pnum,t.team_place,t.team_code,t.team_psw,t.team_img_url,u.openname,u.avatar,u.email
+        from user u join user_collect uc on uc.be_collect_user_id = u.userid
+        join team t on t.team_leader = u.userid
+        where collect_user_id = #{collectionUserId}
+        order by t.team_send_time desc
+        limit #{teamIndex} , #{pageSize}
+    </select>
+
+
+<!--    select t.team_id,t.team_leader,t.team_title,t.team_detail,t.team_send_time,t.team_start_time-->
+<!--    ,t.team_end_time,t.team_pnum,t.team_get_pnum,t.team_place,t.team_code,t.team_psw,t.team_img_url-->
+<!--    ,u.openname,u.avatar,u.email-->
+<!--    from team t left join user u on t.team_leader = u.userid-->
+<!--    <where>-->
+<!--        <if test="teamId!=null">t.team_id=#{teamId}</if>-->
+<!--        <if test="teamLeader!=null">and t.team_leader=#{teamLeader}</if>-->
+<!--        <if test="teamCode!=null">and t.team_code=#{teamCode}</if>-->
+<!--    </where>-->
+<!--    order by t.team_send_time desc-->
+    <select id="selectTeam" parameterType="Team" resultType="TeamInfo">
+        select t.team_id,t.team_leader,t.team_title,t.team_detail,t.team_send_time,t.team_start_time
+        ,t.team_end_time,t.team_pnum,t.team_get_pnum,t.team_place,t.team_code,t.team_psw,t.team_img_url
+        ,t.team_contact,u.openname,u.avatar,u.email,c.contest_id,c.contest_title
+        from team t
+        left join contest_team ct on t.team_id = ct.team_id
+        left join contest c on ct.contest_id = c.contest_id
+        left join user u on t.team_leader = u.userid
+        <where>
+            <if test="teamId!=null">t.team_id=#{teamId}</if>
+            <if test="teamLeader!=null">and t.team_leader=#{teamLeader}</if>
+            <if test="teamCode!=null">and t.team_code=#{teamCode}</if>
+        </where>
+        order by t.team_send_time desc
+    </select>
+    <select id="selectTeamById" resultType="Team">
+      select *
+      from team
+      where team_id = #{teamId}
+      order by team_send_time desc
+    </select>
+
+    <update id="updateTeam" parameterType="Team">
+        update team
+        <trim prefix="set" suffixOverrides=",">
+            <if test="teamTitle!=null">team_title=#{teamTitle},</if>
+            <if test="teamDetail!=null">team_detail=#{teamDetail},</if>
+            <if test="teamStartTime!=null">team_start_time=#{teamStartTime},</if>
+            <if test="teamEndTime!=null">team_end_time=#{teamEndTime},</if>
+            <if test="teamPnum!=null">team_pnum=#{teamPnum},</if>
+            <if test="teamGetPnum!=null">team_get_pnum=#{teamGetPnum},</if>
+            <if test="teamPlace!=null">team_place=#{teamPlace},</if>
+            <if test="teamPsw!=null">team_psw=#{teamPsw},</if>
+            <if test="teamImgUrl!=null">team_img_url=#{teamImgUrl},</if>
+        </trim>
+        <where>team_id=#{teamId}</where>
+    </update>
+
+    <select id="searchTeamByContentAndPage" resultType="com.event.vo.TeamInfo">
+        select t.team_id,t.team_leader,t.team_title,t.team_detail,t.team_send_time,t.team_start_time
+             ,t.team_end_time,t.team_pnum,t.team_get_pnum,t.team_place,t.team_code,t.team_psw,t.team_img_url
+             ,t.team_contact,u.openname,u.avatar,u.email,c.contest_id,c.contest_title
+        from team t
+                 left join user u on t.team_leader=u.userid
+                 left join contest_team ct on t.team_id=ct.team_id
+                 left join contest c on ct.contest_id=c.contest_id
+        where t.team_detail like CONCAT('%',#{keyword},'%')
+            or t.team_title like CONCAT('%',#{keyword},'%')
+            or t.team_place like CONCAT('%',#{keyword},'%')
+        order by t.team_send_time desc
+        limit #{offset},#{pageSize}
+    </select>
+</mapper>
