@@ -71,7 +71,7 @@
 				uni.navigateTo({url:'/subPackageA/pages/me/setting/me-security'})
 			},
 			goYimu() {
-				uni.navigateToMiniProgram({appId: 'wx0039159c9e7dacc1'})
+				uni.navigateToMiniProgram({appId: 'xxxxxxxxxxxxxxxxxxxxxx'})
 			},
 			goContact() {
 				uni.navigateTo({url:'/subPackageA/pages/me/setting/me-contact'})

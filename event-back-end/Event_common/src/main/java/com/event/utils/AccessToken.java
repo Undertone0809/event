@@ -11,8 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AccessToken {
     private static final Map<String, String> TOKEN_MAP = new ConcurrentHashMap<>();
 
-    private static final String APPID = "wx00a35152ace62c28";
-    private static final String APPSECRET = "458d3d5b81a0c56a8d82a91e24689280";
+    private static final String APPID = "xxxxxxxxxxxxxxxxxxxxxx";
+    private static final String APPSECRET = "xxxxxxxxxxxxxxxxxxxxxx";
 
     public static String getAccessToken() throws Exception {
         String accessTokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APPID
