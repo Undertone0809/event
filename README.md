@@ -1,7 +1,8 @@
 ## Event
 
-**一问Event**是一个面向大学生的赛事组队交流分享平台微信小程序，采用前后端分离的方式构建，前端采用uniapp跨平台编译到微信小程序，后端采用springcloud nacos+redis+rabbitmq+mysql的分布式技术栈构建，该项目当前因为服务器到期暂时不提供体验版本，如果想要体验可以尝试在本地构建项目，或者查看演示视频[https://www.bilibili.com/video/BV1nt4y137an/](https://www.bilibili.com/video/BV1nt4y137an/?vd_source=82cc55a35696477a7fa4ca566a53d61d#reply140847374352)
+**一问Event**是一个面向大学生的赛事组队交流分享平台微信小程序，采用前后端分离的方式构建，前端采用uniapp跨平台编译到微信小程序，后端采用springcloud nacos+redis+rabbitmq+mysql的分布式技术栈构建，该项目当前因为服务器到期暂时不提供体验版本，如果想要体验可以尝试在本地构建项目，或者查看演示视频
 
+[![一问Event-大学生赛事交流平台](https://res.cloudinary.com/marcomontalbano/image/upload/v1714028818/video_to_markdown/images/youtube--u4nbmzymK8s-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=u4nbmzymK8s "一问Event-大学生赛事交流平台")
 
 一问Event——一个面向大学生的赛事组队交流分享平台。分布在不同大学、不同专业领域的大学生可以为你提供独特而又价值的一手赛事信息，也可以找到和你志同道合的人一同参与比赛，无论你处于大学生活的哪个阶段，都可以来Event听听大家的现身说法。
 
